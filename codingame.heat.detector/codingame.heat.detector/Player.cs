@@ -1,6 +1,7 @@
 ﻿namespace codingame.heat.detector
 {
     using System;
+using System.Collections.Generic;
 
     /**
      * Auto-generated code below aims at helping you parse
@@ -48,6 +49,7 @@
 
         public class Building
         {
+            private readonly List<Window> _previousPositions = new List<Window>();
             private readonly int _width;
             private readonly int _height;
 
@@ -62,25 +64,61 @@
 
             public Window PredictJump(Direction bombDirection)
             {
-                throw new NotImplementedException();
+                Window newWindow = null;
+                switch (bombDirection)
+                {
+                    case Direction.U:
+                        newWindow = new Window(_currentPosition.X, _currentPosition.Y - 1);
+                        break;
+                    case Direction.UR:
+                        newWindow = new Window(_currentPosition.X + 1, _currentPosition.Y - 1);
+                        break;
+                    case Direction.R:
+                        newWindow = new Window(_currentPosition.X + 1, _currentPosition.Y);
+                        break;
+                    case Direction.DR:
+                        newWindow = new Window(_currentPosition.X + 1, _currentPosition.Y + 1);
+                        break;
+                    case Direction.D:
+                        newWindow = new Window(_currentPosition.X, _currentPosition.Y + 1);
+                        break;
+                    case Direction.DL:
+                        newWindow = new Window(_currentPosition.X - 1, _currentPosition.Y + 1);
+                        break;
+                    case Direction.L:
+                        newWindow = new Window(_currentPosition.X - 1, _currentPosition.Y);
+                        break;
+                    case Direction.UL:
+                        newWindow = new Window(_currentPosition.X - 1, _currentPosition.Y - 1);
+                        break;
+                    default:
+                        break;
+                }
+
+                _previousPositions.Add(_currentPosition);
+                _currentPosition = newWindow;
+
+                return _currentPosition;
             }
         }
 
         public class Window
         {
-            private readonly int _y;
-            private readonly int _x;
-
             public Window(int x, int y)
             {
-                _x = x;
-                _y = y;
+                X = x;
+                Y = y;
             }
+
+            public int Y { get; private set; }
+
+            public int X { get; private set; }
 
             public override string ToString()
             {
-                return _x + " " + _y;
+                return X + " " + Y;
             }
+
         }
     }
 }
