@@ -8,7 +8,7 @@
     public class BuildingTest
     {
         [TestMethod]
-        public void SomeJumps()
+        public void Given10By10WhenUrAndDrThen52And74()
         {
             var building = new Player.Building(10, 10, new Player.Window(2, 5));
 

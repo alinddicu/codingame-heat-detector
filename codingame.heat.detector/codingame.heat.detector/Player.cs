@@ -71,7 +71,7 @@
                     for (int y = 0; y < _height; y++)
                     {
                         _possibleJumps.Add(new Window(x, y));
-                    }   
+                    }
                 };
 
                 _possibleJumps.Remove(_currentPosition);
@@ -84,7 +84,7 @@
                 var xAbsMargin = Math.Abs(_currentPosition.X - _width);
                 var yAbsMargin = Math.Abs(_currentPosition.Y - _height);
                 var leastMargin = (new[] { xAbsMargin, yAbsMargin }).Min(m => m);
-                var delta = (int)Math.Floor((double)leastMargin / 2);
+                var delta = (int)Math.Ceiling((double)leastMargin / 2);
 
                 Window newWindow = null;
                 switch (bombDirection)
@@ -129,7 +129,15 @@
                     return newWindow;
                 }
 
-                return _possibleJumps.Single(j => j.IsInlineAndClosest(bombDirection, _currentPosition, newWindow, _possibleJumps));
+                return IsInlineAndClosest(bombDirection, newWindow);
+            }
+
+            public Window IsInlineAndClosest(Direction bombDirection, Window newWindow)
+            {
+                var inlines = _possibleJumps.Where(w => w.IsInline(bombDirection, _currentPosition));
+                var minDistance = inlines.Min(i => i.GetDistance(newWindow));
+
+                return inlines.Single(i => i.GetDistance(newWindow) == minDistance);
             }
 
             private void DiminishPossibleJumps(Direction bombDirection)
@@ -212,9 +220,48 @@
                 return ToString().GetHashCode();
             }
 
-            public bool IsInlineAndClosest(Direction bombDirection, Window _currentPosition, Window newWindow, List<Window> _possibleJumps)
+            public double GetDistance(Window other)
             {
-                throw new NotImplementedException();
+                var x = X - other.X;
+                var y = Y - other.Y;
+                return Math.Sqrt(x * x + y * y);
+            }
+
+            public bool IsInline(Direction bombDirection, Window currentPosition)
+            {
+                if (IsHorizontal(bombDirection) && Y == currentPosition.Y)
+                {
+                    return true;
+                }
+
+                if (IsVertical(bombDirection) && X == currentPosition.Y)
+                {
+                    return true;
+                }
+
+                var deltaX = Math.Abs(Math.Abs(X) - Math.Abs(currentPosition.X));
+                var deltaY = Math.Abs(Math.Abs(Y) - Math.Abs(currentPosition.Y));
+                if (IsOblic(bombDirection) &&  deltaX == deltaY)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            private static bool IsHorizontal(Direction direction)
+            {
+                return direction == Direction.L || direction == Direction.R;
+            }
+
+            private static bool IsVertical(Direction direction)
+            {
+                return direction == Direction.U || direction == Direction.D;
+            }
+
+            private static bool IsOblic(Direction direction)
+            {
+                return !IsHorizontal(direction) && !IsVertical(direction);
             }
         }
     }
