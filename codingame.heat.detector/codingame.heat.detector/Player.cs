@@ -1,7 +1,8 @@
 ﻿namespace codingame.heat.detector
 {
     using System;
-using System.Collections.Generic;
+    using System.Linq;
+    using System.Collections.Generic;
 
     /**
      * Auto-generated code below aims at helping you parse
@@ -49,10 +50,10 @@ using System.Collections.Generic;
 
         public class Building
         {
-            private readonly List<Window> _previousPositions = new List<Window>();
             private readonly int _width;
             private readonly int _height;
 
+            private List<Window> _possibleJumps = new List<Window>();
             private Window _currentPosition;
 
             public Building(int width, int height, Window intialPosition)
@@ -60,10 +61,31 @@ using System.Collections.Generic;
                 _width = width;
                 _height = height;
                 _currentPosition = intialPosition;
+                InitPossibleJumps();
+            }
+
+            private void InitPossibleJumps()
+            {
+                for (int x = 0; x < _width; x++)
+                {
+                    for (int y = 0; y < _height; y++)
+                    {
+                        _possibleJumps.Add(new Window(x, y));
+                    }   
+                };
+
+                _possibleJumps.Remove(_currentPosition);
             }
 
             public Window PredictJump(Direction bombDirection)
             {
+                DiminishPossibleJumps(bombDirection);
+
+                var xAbsMargin = Math.Abs(_currentPosition.X - _width);
+                var yAbsMargin = Math.Abs(_currentPosition.Y - _height);
+                var leastMargin = (new[] { xAbsMargin, yAbsMargin }).Min(m => m);
+                var delta = (int)Math.Floor((double)leastMargin / 2);
+
                 Window newWindow = null;
                 switch (bombDirection)
                 {
@@ -71,13 +93,13 @@ using System.Collections.Generic;
                         newWindow = new Window(_currentPosition.X, _currentPosition.Y - 1);
                         break;
                     case Direction.UR:
-                        newWindow = new Window(_currentPosition.X + 1, _currentPosition.Y - 1);
+                        newWindow = new Window(_currentPosition.X + delta, _currentPosition.Y - delta);
                         break;
                     case Direction.R:
                         newWindow = new Window(_currentPosition.X + 1, _currentPosition.Y);
                         break;
                     case Direction.DR:
-                        newWindow = new Window(_currentPosition.X + 1, _currentPosition.Y + 1);
+                        newWindow = new Window(_currentPosition.X + delta, _currentPosition.Y + delta);
                         break;
                     case Direction.D:
                         newWindow = new Window(_currentPosition.X, _currentPosition.Y + 1);
@@ -95,10 +117,55 @@ using System.Collections.Generic;
                         break;
                 }
 
-                _previousPositions.Add(_currentPosition);
-                _currentPosition = newWindow;
+                _currentPosition = Minor(newWindow, bombDirection);
 
                 return _currentPosition;
+            }
+
+            private Window Minor(Window newWindow, Direction bombDirection)
+            {
+                if (_possibleJumps.Contains(newWindow))
+                {
+                    return newWindow;
+                }
+
+                return _possibleJumps.Single(j => j.IsInlineAndClosest(bombDirection, _currentPosition, newWindow, _possibleJumps));
+            }
+
+            private void DiminishPossibleJumps(Direction bombDirection)
+            {
+                IEnumerable<Window> newList = null;
+                switch (bombDirection)
+                {
+                    case Direction.U:
+                        newList = _possibleJumps.Where(w => w.Y < _currentPosition.Y).ToList();
+                        break;
+                    case Direction.UR:
+                        newList = _possibleJumps.Where(w => w.Y < _currentPosition.Y && w.X > _currentPosition.X).ToList();
+                        break;
+                    case Direction.R:
+                        newList = _possibleJumps.Where(w => w.X > _currentPosition.X).ToList();
+                        break;
+                    case Direction.DR:
+                        newList = _possibleJumps.Where(w => w.Y > _currentPosition.Y && w.X > _currentPosition.X).ToList();
+                        break;
+                    case Direction.D:
+                        newList = _possibleJumps.Where(w => w.Y > _currentPosition.Y).ToList();
+                        break;
+                    case Direction.DL:
+                        newList = _possibleJumps.Where(w => w.Y < _currentPosition.Y && w.X > _currentPosition.X).ToList();
+                        break;
+                    case Direction.L:
+                        newList = _possibleJumps.Where(w => w.X < _currentPosition.X).ToList();
+                        break;
+                    case Direction.UL:
+                        newList = _possibleJumps.Where(w => w.Y < _currentPosition.Y && w.X < _currentPosition.X).ToList();
+                        break;
+                    default:
+                        break;
+                }
+
+                _possibleJumps = newList.ToList();
             }
         }
 
@@ -119,6 +186,36 @@ using System.Collections.Generic;
                 return X + " " + Y;
             }
 
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj))
+                {
+                    return false;
+                }
+
+                if (ReferenceEquals(this, obj))
+                {
+                    return true;
+                }
+
+                var other = obj as Window;
+                return other != null && Equals(other);
+            }
+
+            private bool Equals(Window other)
+            {
+                return X == other.X && Y == other.Y;
+            }
+
+            public override int GetHashCode()
+            {
+                return ToString().GetHashCode();
+            }
+
+            public bool IsInlineAndClosest(Direction bombDirection, Window _currentPosition, Window newWindow, List<Window> _possibleJumps)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

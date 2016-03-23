@@ -12,8 +12,8 @@
         {
             var building = new Player.Building(10, 10, new Player.Window(2, 5));
 
-            Check.That(building.PredictJump(Player.Direction.UR).ToString()).IsEqualTo("5 4");
-            Check.That(building.PredictJump(Player.Direction.R).ToString()).IsEqualTo("7 4");
+            Check.That(building.PredictJump(Player.Direction.UR).ToString()).IsEqualTo("5 2");
+            Check.That(building.PredictJump(Player.Direction.DR).ToString()).IsEqualTo("7 4");
         }
 
         [TestMethod]
