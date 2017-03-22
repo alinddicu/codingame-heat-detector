@@ -1,13 +1,12 @@
 ﻿namespace codingame.heat.detector
 {
-	using System;
-
 	public class Window
 	{
-		public Window(int x, int y)
+		public Window(string readLine)
 		{
-			X = x;
-			Y = y;
+			var inputs = readLine.Split(' ');
+			X = int.Parse(inputs[0]);
+			Y = int.Parse(inputs[1]);
 		}
 
 		public int Y { get; }
