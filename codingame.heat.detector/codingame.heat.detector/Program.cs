@@ -6,7 +6,7 @@
      * Auto-generated code below aims at helping you parse
      * the standard input according to the problem statement.
      **/
-	public class Player
+	public class Program
 	{
 
 		static void Main(string[] args)
@@ -19,19 +19,9 @@
 			var x0 = int.Parse(inputs[0]);
 			var y0 = int.Parse(inputs[1]);
 
-			var building = new Building(width, height, new Window(x0, y0));
+			var building = new Building(Console.ReadLine, Console.WriteLine);
 
-			// game loop
-			while (true)
-			{
-				var bombDir = Console.ReadLine(); // the direction of the bombs from batman's current location (U, UR, R, DR, D, DL, L or UL)
-
-				// Write an action using Console.WriteLine()
-				// To debug: Console.Error.WriteLine("Debug messages...");
-
-				var bombDirection = (Direction)Enum.Parse(typeof(Direction), bombDir);
-				Console.WriteLine(building.PredictJump(bombDirection)); // the location of the next window Batman should jump to.
-			}
+			building.Run();
 		}
 	}
 }

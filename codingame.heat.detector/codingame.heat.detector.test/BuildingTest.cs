@@ -1,6 +1,7 @@
 ﻿namespace codingame.heat.detector.test
 {
     using detector;
+    using dont.panic.test;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NFluent;
 
@@ -8,22 +9,29 @@
     public class BuildingTest
     {
         [TestMethod]
+		[Ignore]
         public void Given10By10WhenUrAndDrThen52And74()
         {
-            var building = new Building(10, 10, new Window(2, 5));
+			var consoleSimulator = new ConsoleSimulator(
+				"10 10",
+				"99",
+				"2 5",
+				"UR",
+				"R");
+            var building = new Building(consoleSimulator.ReadLine, consoleSimulator.WriteLine);
 
-            Check.That(building.PredictJump(Direction.UR).ToString()).IsEqualTo("5 2");
-            Check.That(building.PredictJump(Direction.DR).ToString()).IsEqualTo("7 4");
-        }
+			building.Run();
+
+			Check.That(consoleSimulator.WrittenLines).ContainsExactly("5 2", "7 4"); }
 
         [TestMethod]
         [Ignore]
         public void Tower()
         {
             // bomb(0,7)
-            var building = new Building(1, 14, new Window(0, 0));
+            //var building = new Building(1, 14, new Window(0, 0));
 
-            Check.That(building.PredictJump(Direction.D).ToString()).IsEqualTo("0 7");
+            //Check.That(building.PredictJump(Direction.D).ToString()).IsEqualTo("0 7");
         }
     }
 }

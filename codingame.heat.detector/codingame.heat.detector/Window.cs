@@ -44,49 +44,5 @@
 		{
 			return ToString().GetHashCode();
 		}
-
-		public double GetDistance(Window other)
-		{
-			var x = X - other.X;
-			var y = Y - other.Y;
-			return Math.Sqrt(x * x + y * y);
-		}
-
-		public bool IsInline(Direction bombDirection, Window currentPosition)
-		{
-			if (IsHorizontal(bombDirection) && Y == currentPosition.Y)
-			{
-				return true;
-			}
-
-			if (IsVertical(bombDirection) && X == currentPosition.Y)
-			{
-				return true;
-			}
-
-			var deltaX = Math.Abs(Math.Abs(X) - Math.Abs(currentPosition.X));
-			var deltaY = Math.Abs(Math.Abs(Y) - Math.Abs(currentPosition.Y));
-			if (IsOblic(bombDirection) && deltaX == deltaY)
-			{
-				return true;
-			}
-
-			return false;
-		}
-
-		private static bool IsHorizontal(Direction direction)
-		{
-			return direction == Direction.L || direction == Direction.R;
-		}
-
-		private static bool IsVertical(Direction direction)
-		{
-			return direction == Direction.U || direction == Direction.D;
-		}
-
-		private static bool IsOblic(Direction direction)
-		{
-			return !IsHorizontal(direction) && !IsVertical(direction);
-		}
 	}
 }

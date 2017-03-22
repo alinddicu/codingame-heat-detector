@@ -8,124 +8,30 @@
 	{
 		private readonly int _width;
 		private readonly int _height;
+		private readonly Func<string> _readLine;
+		private readonly Action<object> _writeLine;
 
-		private List<Window> _possibleJumps = new List<Window>();
-		private Window _currentPosition;
-
-		public Building(int width, int height, Window intialPosition)
+		public Building(Func<string> readLine, Action<object> writeLine)
 		{
-			_width = width;
-			_height = height;
-			_currentPosition = intialPosition;
-			InitPossibleJumps();
+			_readLine = readLine;
+			_writeLine = writeLine;
 		}
 
-		private void InitPossibleJumps()
+		public void Run()
 		{
-			for (int x = 0; x < _width; x++)
+			// game loop
+			while (true)
 			{
-				for (int y = 0; y < _height; y++)
-				{
-					_possibleJumps.Add(new Window(x, y));
-				}
-			}
+				var bombDir = Console.ReadLine(); // the direction of the bombs from batman's current location (U, UR, R, DR, D, DL, L or UL)
 
-			_possibleJumps.Remove(_currentPosition);
+				var bombDirection = (Direction)Enum.Parse(typeof(Direction), bombDir);
+				Console.WriteLine(PredictJump(bombDirection)); // the location of the next window Batman should jump to.
+			}
 		}
 
-		public Window PredictJump(Direction bombDirection)
+		private bool PredictJump(Direction bombDirection)
 		{
-			DiminishPossibleJumps(bombDirection);
-
-			var xAbsMargin = Math.Abs(_currentPosition.X - _width);
-			var yAbsMargin = Math.Abs(_currentPosition.Y - _height);
-			var leastMargin = (new[] { xAbsMargin, yAbsMargin }).Min(m => m);
-			var delta = (int)Math.Ceiling((double)leastMargin / 2);
-
-			Window newWindow = null;
-			switch (bombDirection)
-			{
-				case Direction.U:
-					newWindow = new Window(_currentPosition.X, _currentPosition.Y - 1);
-					break;
-				case Direction.UR:
-					newWindow = new Window(_currentPosition.X + delta, _currentPosition.Y - delta);
-					break;
-				case Direction.R:
-					newWindow = new Window(_currentPosition.X + 1, _currentPosition.Y);
-					break;
-				case Direction.DR:
-					newWindow = new Window(_currentPosition.X + delta, _currentPosition.Y + delta);
-					break;
-				case Direction.D:
-					newWindow = new Window(_currentPosition.X, _currentPosition.Y + 1);
-					break;
-				case Direction.DL:
-					newWindow = new Window(_currentPosition.X - 1, _currentPosition.Y + 1);
-					break;
-				case Direction.L:
-					newWindow = new Window(_currentPosition.X - 1, _currentPosition.Y);
-					break;
-				case Direction.UL:
-					newWindow = new Window(_currentPosition.X - 1, _currentPosition.Y - 1);
-					break;
-			}
-
-			_currentPosition = Minor(newWindow, bombDirection);
-
-			return _currentPosition;
-		}
-
-		private Window Minor(Window newWindow, Direction bombDirection)
-		{
-			if (_possibleJumps.Contains(newWindow))
-			{
-				return newWindow;
-			}
-
-			return IsInlineAndClosest(bombDirection, newWindow);
-		}
-
-		public Window IsInlineAndClosest(Direction bombDirection, Window newWindow)
-		{
-			var inlines = _possibleJumps.Where(w => w.IsInline(bombDirection, _currentPosition)).ToArray();
-			var minDistance = inlines.Min(i => i.GetDistance(newWindow));
-
-			return inlines.Single(i => i.GetDistance(newWindow) == minDistance);
-		}
-
-		private void DiminishPossibleJumps(Direction bombDirection)
-		{
-			IEnumerable<Window> newList = null;
-			switch (bombDirection)
-			{
-				case Direction.U:
-					newList = _possibleJumps.Where(w => w.Y < _currentPosition.Y).ToList();
-					break;
-				case Direction.UR:
-					newList = _possibleJumps.Where(w => w.Y < _currentPosition.Y && w.X > _currentPosition.X).ToList();
-					break;
-				case Direction.R:
-					newList = _possibleJumps.Where(w => w.X > _currentPosition.X).ToList();
-					break;
-				case Direction.DR:
-					newList = _possibleJumps.Where(w => w.Y > _currentPosition.Y && w.X > _currentPosition.X).ToList();
-					break;
-				case Direction.D:
-					newList = _possibleJumps.Where(w => w.Y > _currentPosition.Y).ToList();
-					break;
-				case Direction.DL:
-					newList = _possibleJumps.Where(w => w.Y < _currentPosition.Y && w.X > _currentPosition.X).ToList();
-					break;
-				case Direction.L:
-					newList = _possibleJumps.Where(w => w.X < _currentPosition.X).ToList();
-					break;
-				case Direction.UL:
-					newList = _possibleJumps.Where(w => w.Y < _currentPosition.Y && w.X < _currentPosition.X).ToList();
-					break;
-			}
-
-			_possibleJumps = newList.ToList();
+			throw new NotImplementedException();
 		}
 	}
 }
