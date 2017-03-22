@@ -1,6 +1,7 @@
 ﻿namespace codingame.heat.detector
 {
 	using System;
+	using System.Collections.Generic;
 
 	public class Building
 	{
@@ -8,7 +9,7 @@
 		private readonly Action<object> _writeLine;
 		private readonly int _width;
 		private readonly int _height;
-		private readonly Window _startingWindow;
+		private readonly List<Window> _windowsHistory = new List<Window>();
 
 		public Building(Func<string> readLine, Action<object> writeLine)
 		{
@@ -18,7 +19,7 @@
 			_width = int.Parse(inputs[0]); // width of the building.
 			_height = int.Parse(inputs[1]); // height of the building.
 			var N = int.Parse(_readLine()); // maximum number of turns before game over.
-			_startingWindow = new Window(_readLine());
+			_windowsHistory.Add(new Window(_readLine()));
 		}
 
 		public void Run()
