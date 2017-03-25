@@ -1,8 +1,8 @@
 ﻿namespace codingame.heat.detector.test
 {
-    using detector;
-    using dont.panic.test;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+	using common;
+	using detector;
+	using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NFluent;
 
     [TestClass]
