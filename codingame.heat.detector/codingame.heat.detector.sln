@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codingame.heat.detector.tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codingame.heat.detector.build", "codingame.heat.detector.build\codingame.heat.detector.build.csproj", "{EF296E9D-6008-46AD-BD33-C4F6E6158125}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codingame.common", "..\..\codingame-common\codingame.common\codingame.common\codingame.common.csproj", "{22152DA3-C08D-40AA-B086-8C48C45BD08C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codingame.common.build.submit.file", "..\..\codingame-common\codingame.common\codingame.common.build.submit.file\codingame.common.build.submit.file.csproj", "{D461583D-276A-4452-917C-6A7EDEBE3CDF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{DDEDBF67-B86B-4061-BD2A-F242A1641EF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codingame.common", "..\..\codingame-common\codingame.common\codingame.common\codingame.common.csproj", "{22152DA3-C08D-40AA-B086-8C48C45BD08C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,20 +33,20 @@ Global
 		{EF296E9D-6008-46AD-BD33-C4F6E6158125}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF296E9D-6008-46AD-BD33-C4F6E6158125}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF296E9D-6008-46AD-BD33-C4F6E6158125}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22152DA3-C08D-40AA-B086-8C48C45BD08C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22152DA3-C08D-40AA-B086-8C48C45BD08C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22152DA3-C08D-40AA-B086-8C48C45BD08C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{22152DA3-C08D-40AA-B086-8C48C45BD08C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D461583D-276A-4452-917C-6A7EDEBE3CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D461583D-276A-4452-917C-6A7EDEBE3CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D461583D-276A-4452-917C-6A7EDEBE3CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D461583D-276A-4452-917C-6A7EDEBE3CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22152DA3-C08D-40AA-B086-8C48C45BD08C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22152DA3-C08D-40AA-B086-8C48C45BD08C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22152DA3-C08D-40AA-B086-8C48C45BD08C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22152DA3-C08D-40AA-B086-8C48C45BD08C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{22152DA3-C08D-40AA-B086-8C48C45BD08C} = {DDEDBF67-B86B-4061-BD2A-F242A1641EF7}
 		{D461583D-276A-4452-917C-6A7EDEBE3CDF} = {DDEDBF67-B86B-4061-BD2A-F242A1641EF7}
+		{22152DA3-C08D-40AA-B086-8C48C45BD08C} = {DDEDBF67-B86B-4061-BD2A-F242A1641EF7}
 	EndGlobalSection
 EndGlobal

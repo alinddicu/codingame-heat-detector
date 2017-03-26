@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using codingame_common;
 
 	public class Building
 	{
@@ -32,7 +33,7 @@
 				{
 					bombDir = _readLine();
 				}
-				catch (ArgumentException)
+				catch (NoMoreLinesToReadException)
 				{
 					break;
 				}
