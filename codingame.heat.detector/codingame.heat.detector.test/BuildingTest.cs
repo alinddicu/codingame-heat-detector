@@ -9,8 +9,7 @@
     public class BuildingTest
     {
         [TestMethod]
-		[Ignore]
-        public void Given10By10WhenUrAndDrThen52And74()
+        public void Given10By10WhenUrAndRThen54And74()
         {
 			var consoleSimulator = new ConsoleSimulator(
 				"10 10",
@@ -22,7 +21,7 @@
 
 			building.Run();
 
-			Check.That(consoleSimulator.WrittenLines).ContainsExactly("5 2", "7 4"); }
+			Check.That(consoleSimulator.WrittenLines).ContainsExactly("5 4", "7 4"); }
 
         [TestMethod]
         [Ignore]
