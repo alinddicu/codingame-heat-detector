@@ -10,7 +10,7 @@
 		private readonly Action<object> _writeLine;
 		private readonly int _width;
 		private readonly int _height;
-		private readonly List<Window> _windowsHistory = new List<Window>();
+		private readonly Stack<Window> _windowsHistory = new Stack<Window>();
 
 		public Building(Func<string> readLine, Action<object> writeLine)
 		{
@@ -20,7 +20,7 @@
 			_width = int.Parse(inputs[0]); // width of the building.
 			_height = int.Parse(inputs[1]); // height of the building.
 			var N = int.Parse(_readLine()); // maximum number of turns before game over.
-			_windowsHistory.Add(new Window(_readLine()));
+			_windowsHistory.Push(new Window(_readLine()));
 		}
 
 		public void Run()
@@ -43,9 +43,18 @@
 			}
 		}
 
-		private bool PredictJump(Direction bombDirection)
+		private Window PredictJump(Direction bombDirection)
 		{
-			throw new NotImplementedException();
+			var compositeDirection = bombDirection.Decompose();
+			var currentWindow = _windowsHistory.Peek();
+			var nextWindow = MovementVector.GetWindow(
+				currentWindow, 
+				compositeDirection,
+				_width,
+				_height);
+			
+			_windowsHistory.Push(nextWindow);
+			return nextWindow;
 		}
 	}
 }
