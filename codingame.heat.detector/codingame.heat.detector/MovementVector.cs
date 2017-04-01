@@ -1,7 +1,5 @@
 ﻿namespace codingame.heat.detector
 {
-	using System;
-
 	public class MovementVector
 	{
 		public static Window GetWindow(

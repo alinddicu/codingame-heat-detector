@@ -2,6 +2,7 @@ namespace codingame.heat.detector
 {
 	using System;
 	using System.Collections.Generic;
+	using codingame_common;
 
 	public class Building
 	{
@@ -9,7 +10,7 @@ namespace codingame.heat.detector
 		private readonly Action<object> _writeLine;
 		private readonly int _width;
 		private readonly int _height;
-		private readonly List<Window> _windowsHistory = new List<Window>();
+		private readonly Stack<Window> _windowsHistory = new Stack<Window>();
 
 		public Building(Func<string> readLine, Action<object> writeLine)
 		{
@@ -19,7 +20,7 @@ namespace codingame.heat.detector
 			_width = int.Parse(inputs[0]); // width of the building.
 			_height = int.Parse(inputs[1]); // height of the building.
 			var N = int.Parse(_readLine()); // maximum number of turns before game over.
-			_windowsHistory.Add(new Window(_readLine()));
+			_windowsHistory.Push(new Window(_readLine()));
 		}
 
 		public void Run()
@@ -32,7 +33,7 @@ namespace codingame.heat.detector
 				{
 					bombDir = _readLine();
 				}
-				catch (ArgumentException)
+				catch (NoMoreLinesToReadException)
 				{
 					break;
 				}
@@ -42,15 +43,51 @@ namespace codingame.heat.detector
 			}
 		}
 
-		private bool PredictJump(Direction bombDirection)
+		private Window PredictJump(Direction bombDirection)
 		{
-			throw new NotImplementedException();
+			var compositeDirection = bombDirection.Decompose();
+			var currentWindow = _windowsHistory.Peek();
+			var nextWindow = MovementVector.GetWindow(
+				currentWindow, 
+				compositeDirection,
+				_width,
+				_height);
+			
+			_windowsHistory.Push(nextWindow);
+			return nextWindow;
 		}
 	}
 }
 
 namespace codingame.heat.detector
 {
+	using System;
+
+	public class CompositeDirection
+	{
+		public CompositeDirection(Direction first, Direction? second)
+		{
+			First = first;
+			Second = second;
+		}
+
+		public Direction First { get; private set; }
+
+		public Direction? Second { get; private set; }
+
+		public static CompositeDirection Create(Direction bombDirection)
+		{
+			throw new NotImplementedException();
+		}
+	}
+}
+
+
+namespace codingame.heat.detector
+{
+	using System;
+	using System.Linq;
+
 	public enum Direction
 	{
 		U,
@@ -62,7 +99,90 @@ namespace codingame.heat.detector
 		L,
 		UL
 	}
+
+	public static class DirectionExtensions
+	{
+		private static bool IsComposed(this Direction direction)
+		{
+			return direction.ToString().Length == 2;
+		}
+
+		public static CompositeDirection Decompose(this Direction direction)
+		{
+			var parts = direction.ToString().ToCharArray().Select(s => s.ToString()).ToArray();
+			var firstDirection = (Direction) Enum.Parse(typeof(Direction), parts[0]);
+			var secondDirection = 
+				direction.IsComposed() 
+				? (Direction?) Enum.Parse(typeof(Direction), parts[1]) 
+				: null;
+
+			return new CompositeDirection(firstDirection, secondDirection);
+		}
+	}
 }
+
+namespace codingame.heat.detector
+{
+	public class MovementVector
+	{
+		public static Window GetWindow(
+			Window currentWindow,
+			CompositeDirection bombDirection,
+			int buildingWidth,
+			int buildingHeight)
+		{
+			var firstDirection = bombDirection.First;
+			var secondDirection = bombDirection.Second;
+			var x = currentWindow.X;
+			var y = currentWindow.Y;
+			var vX = x;
+			var vY = y;
+			if (secondDirection.HasValue && firstDirection == Direction.L)
+			{
+				vX = x - 1;
+			}
+
+			if (secondDirection.HasValue && firstDirection == Direction.R)
+			{
+				vX = x + 1;
+			}
+
+			if (secondDirection.HasValue && firstDirection == Direction.U)
+			{
+				vY = y - 1;
+			}
+
+			if (secondDirection.HasValue && firstDirection == Direction.D)
+			{
+				vY = y + 1;
+			}
+
+			secondDirection = secondDirection ?? firstDirection;
+			if (secondDirection == Direction.L)
+			{
+				vX = x + (0 - x) / 2;
+			}
+
+			if (secondDirection == Direction.R)
+			{
+				vX = x + (buildingWidth - 1 - x) / 2;
+			}
+
+			if (secondDirection == Direction.U)
+			{
+				vY = y + (0 - y) / 2;
+			}
+
+			if (secondDirection == Direction.D)
+			{
+				vY = y + (buildingHeight - 1 - y) / 2;
+			}
+
+			return new Window(vX, vY);
+		}
+	}
+}
+
 
 namespace codingame.heat.detector
 {
@@ -93,6 +213,12 @@ namespace codingame.heat.detector
 			var inputs = readLine.Split(' ');
 			X = int.Parse(inputs[0]);
 			Y = int.Parse(inputs[1]);
+		}
+
+		public Window(int x, int y)
+		{
+			X = x;
+			Y = y;
 		}
 
 		public int Y { get; }

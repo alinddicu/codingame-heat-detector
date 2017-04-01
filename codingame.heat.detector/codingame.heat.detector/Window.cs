@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace codingame.heat.detector
+﻿namespace codingame.heat.detector
 {
 	public class Window
 	{

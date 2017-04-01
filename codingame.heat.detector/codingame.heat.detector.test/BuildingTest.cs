@@ -24,7 +24,6 @@
 			Check.That(consoleSimulator.WrittenLines).ContainsExactly("5 4", "7 4"); }
 
         [TestMethod]
-        [Ignore]
         public void Tower()
         {
             // bomb(0,7)

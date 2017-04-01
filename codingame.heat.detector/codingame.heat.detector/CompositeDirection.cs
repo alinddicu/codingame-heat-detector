@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace codingame.heat.detector
+﻿namespace codingame.heat.detector
 {
+	using System;
+
 	public class CompositeDirection
 	{
 		public CompositeDirection(Direction first, Direction? second)
