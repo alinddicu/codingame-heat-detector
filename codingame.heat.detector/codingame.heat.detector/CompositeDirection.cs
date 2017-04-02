@@ -1,22 +1,15 @@
 ﻿namespace codingame.heat.detector
 {
-	using System;
-
 	public class CompositeDirection
 	{
-		public CompositeDirection(Direction first, Direction? second)
+		public CompositeDirection(Direction component1, Direction? component2)
 		{
-			First = first;
-			Second = second;
+			Component1 = component1;
+			Component2 = component2;
 		}
 
-		public Direction First { get; private set; }
+		public Direction Component1 { get; private set; }
 
-		public Direction? Second { get; private set; }
-
-		public static CompositeDirection Create(Direction bombDirection)
-		{
-			throw new NotImplementedException();
-		}
+		public Direction? Component2 { get; private set; }
 	}
 }
