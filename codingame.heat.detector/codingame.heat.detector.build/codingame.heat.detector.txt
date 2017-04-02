@@ -1,3 +1,54 @@
+namespace codingame.common
+{
+	using System.Collections.Generic;
+	using codingame_common;
+
+	public class ConsoleSimulator
+	{
+		private readonly string[] _linesToRead;
+		private readonly List<string> _writtenLines = new List<string>();
+		private int _readLinesCount;
+
+		public ConsoleSimulator(params string[] linesToRead)
+		{
+			_linesToRead = linesToRead;
+		}
+
+		public IEnumerable<string> WrittenLines => _writtenLines;
+
+		public string ReadLine()
+		{
+			if (_readLinesCount >= _linesToRead.Length)
+			{
+				throw new NoMoreLinesToReadException();
+			}
+
+			return _linesToRead[_readLinesCount++];
+		}
+
+		public void WriteLine(object obj)
+		{
+			_writtenLines.Add(obj.ToString());
+		}
+	}
+}
+
+
+namespace codingame_common
+{
+	using System;
+	public class NoMoreLinesToReadException : ArgumentException
+	{
+	}
+}
+
+
+
+
+
+
+
+
 namespace codingame.heat.detector
 {
 	using System;
@@ -61,24 +112,17 @@ namespace codingame.heat.detector
 
 namespace codingame.heat.detector
 {
-	using System;
-
 	public class CompositeDirection
 	{
-		public CompositeDirection(Direction first, Direction? second)
+		public CompositeDirection(Direction component1, Direction? component2)
 		{
-			First = first;
-			Second = second;
+			Component1 = component1;
+			Component2 = component2;
 		}
 
-		public Direction First { get; private set; }
+		public Direction Component1 { get; private set; }
 
-		public Direction? Second { get; private set; }
-
-		public static CompositeDirection Create(Direction bombDirection)
-		{
-			throw new NotImplementedException();
-		}
+		public Direction? Component2 { get; private set; }
 	}
 }
 
@@ -131,49 +175,49 @@ namespace codingame.heat.detector
 			int buildingWidth,
 			int buildingHeight)
 		{
-			var firstDirection = bombDirection.First;
-			var secondDirection = bombDirection.Second;
+			var component1 = bombDirection.Component1;
+			var component2 = bombDirection.Component2;
 			var x = currentWindow.X;
 			var y = currentWindow.Y;
 			var vX = x;
 			var vY = y;
-			if (secondDirection.HasValue && firstDirection == Direction.L)
+			if (component2.HasValue && component1 == Direction.L)
 			{
 				vX = x - 1;
 			}
 
-			if (secondDirection.HasValue && firstDirection == Direction.R)
+			if (component2.HasValue && component1 == Direction.R)
 			{
 				vX = x + 1;
 			}
 
-			if (secondDirection.HasValue && firstDirection == Direction.U)
+			if (component2.HasValue && component1 == Direction.U)
 			{
 				vY = y - 1;
 			}
 
-			if (secondDirection.HasValue && firstDirection == Direction.D)
+			if (component2.HasValue && component1 == Direction.D)
 			{
 				vY = y + 1;
 			}
 
-			secondDirection = secondDirection ?? firstDirection;
-			if (secondDirection == Direction.L)
+			component2 = component2 ?? component1;
+			if (component2 == Direction.L)
 			{
 				vX = x + (0 - x) / 2;
 			}
 
-			if (secondDirection == Direction.R)
+			if (component2 == Direction.R)
 			{
 				vX = x + (buildingWidth - 1 - x) / 2;
 			}
 
-			if (secondDirection == Direction.U)
+			if (component2 == Direction.U)
 			{
 				vY = y + (0 - y) / 2;
 			}
 
-			if (secondDirection == Direction.D)
+			if (component2 == Direction.D)
 			{
 				vY = y + (buildingHeight - 1 - y) / 2;
 			}
