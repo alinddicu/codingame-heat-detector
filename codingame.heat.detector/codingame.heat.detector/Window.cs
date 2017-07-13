@@ -26,5 +26,27 @@
 		{
 			return X + " " + Y;
 		}
+
+		protected bool Equals(Window other)
+		{
+			return Y == other.Y && X == other.X;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (ReferenceEquals(null, obj)) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (obj.GetType() != GetType()) return false;
+
+			return Equals((Window) obj);
+		}
+
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				return (Y*397) ^ X;
+			}
+		}
 	}
 }

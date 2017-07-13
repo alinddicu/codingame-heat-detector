@@ -17,7 +17,7 @@
 
 		public Direction? Component2 { get; }
 
-		private bool IsDiagonal()
+		public bool IsDiagonal()
 		{
 			return Component2 != null;
 		}
