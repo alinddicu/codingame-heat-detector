@@ -8,11 +8,8 @@
 	[TestClass]
 	public class CompositeDirectionTest
 	{
-
 		private static readonly IEnumerable<CompositeDirection> Diagonals = new[]
 		{
-			new CompositeDirection(Direction.L),
-			new CompositeDirection(Direction.R),
 			new CompositeDirection(Direction.UL),
 			new CompositeDirection(Direction.UR),
 			new CompositeDirection(Direction.DL),
