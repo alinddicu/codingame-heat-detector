@@ -46,6 +46,7 @@
     <Compile Include="CompositeDirection.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="MovementVector.cs" />
+    <Compile Include="NextJumpCalculator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Window.cs" />
