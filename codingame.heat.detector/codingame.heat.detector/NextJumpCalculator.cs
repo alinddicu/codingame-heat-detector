@@ -74,6 +74,22 @@
 					var x = actualWindow.X - actualWindow.X / 2 - 1;
 					return new Window(x, actualWindow.Y);
 				}
+
+				if (primaryDirection == Direction.L &&
+					!isFirstJump
+					&& _directionsHistory.Last().IsOpposite(Direction.L))
+				{
+					var x = actualWindow.X - previousWindow.X / 2 - 1;
+					return new Window(x, actualWindow.Y);
+				}
+
+				if (primaryDirection == Direction.R &&
+					!isFirstJump
+					&& _directionsHistory.Last().IsOpposite(Direction.R))
+				{
+					var x = actualWindow.X + (previousWindow.X - actualWindow.X) / 2;
+					return new Window(x, actualWindow.Y);
+				}
 			}
 
 			throw new NotImplementedException();

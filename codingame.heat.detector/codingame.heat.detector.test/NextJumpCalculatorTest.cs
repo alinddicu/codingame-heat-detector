@@ -77,5 +77,31 @@
 
 			Check.That(nextJump).Equals(new Window(0, 5));
 		}
+
+		[TestMethod]
+		public void RightThenLeft()
+		{
+			var windowsHistory = new Stack<Window>();
+			windowsHistory.Push(new Window(2, 5));
+			windowsHistory.Push(new Window(7, 5));
+			var calculator = new NextJumpCalculator(10, 10, windowsHistory, new[] { Direction.R });
+
+			var nextJump = calculator.Execute(new CompositeDirection(Direction.L));
+
+			Check.That(nextJump).Equals(new Window(5, 5));
+		}
+
+		[TestMethod]
+		public void LeftThenRight()
+		{
+			var windowsHistory = new Stack<Window>();
+			windowsHistory.Push(new Window(2, 5));
+			windowsHistory.Push(new Window(0, 5));
+			var calculator = new NextJumpCalculator(10, 10, windowsHistory, new[] { Direction.L });
+
+			var nextJump = calculator.Execute(new CompositeDirection(Direction.R));
+
+			Check.That(nextJump).Equals(new Window(1, 5));
+		}
 	}
 }
