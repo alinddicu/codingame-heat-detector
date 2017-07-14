@@ -55,5 +55,27 @@
 
 			Check.That(nextJump).Equals(new Window(2, 4));
 		}
+
+		[TestMethod]
+		public void GivenStartAtX2Y5WhenDirectionIsRThenReturnX7Y5()
+		{
+			var windowsHistory = new Stack<Window>(new[] { new Window(2, 5) });
+			var calculator = new NextJumpCalculator(10, 10, windowsHistory, Enumerable.Empty<Direction>());
+
+			var nextJump = calculator.Execute(new CompositeDirection(Direction.R));
+
+			Check.That(nextJump).Equals(new Window(7, 5));
+		}
+
+		[TestMethod]
+		public void GivenStartAtX2Y5WhenDirectionIsLThenReturnX0Y5()
+		{
+			var windowsHistory = new Stack<Window>(new[] { new Window(2, 5) });
+			var calculator = new NextJumpCalculator(10, 10, windowsHistory, Enumerable.Empty<Direction>());
+
+			var nextJump = calculator.Execute(new CompositeDirection(Direction.L));
+
+			Check.That(nextJump).Equals(new Window(0, 5));
+		}
 	}
 }

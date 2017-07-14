@@ -9,6 +9,7 @@
     public class BuildingTest
     {
         [TestMethod]
+		[Ignore]
         public void Given10By10WhenUrAndRThen54And74()
         {
 			var consoleSimulator = new ConsoleSimulator(
