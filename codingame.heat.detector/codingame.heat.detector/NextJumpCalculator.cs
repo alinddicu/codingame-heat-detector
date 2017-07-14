@@ -34,13 +34,13 @@
 			{
 				if (primaryDirection == Direction.U && isFirstJump)
 				{
-					var y = actualWindow.Y + (_buildingHeight - actualWindow.Y) / 2 + 1;
+					var y = actualWindow.Y + (_buildingHeight - actualWindow.Y) / 2;
 					return new Window(actualWindow.X, y);
 				}
 
 				if (primaryDirection == Direction.D && isFirstJump)
 				{
-					var y = actualWindow.Y / 2 - 1;
+					var y = actualWindow.Y - actualWindow.Y / 2;
 					return new Window(actualWindow.X, y);
 				}
 
@@ -48,7 +48,7 @@
 					!isFirstJump
 					&& _directionsHistory.Last().IsOpposite(Direction.U))
 				{
-					var y = actualWindow.Y + (previousWindow.Y - actualWindow.Y) / 2 + 1;
+					var y = actualWindow.Y + (previousWindow.Y - actualWindow.Y) / 2;
 					return new Window(actualWindow.X, y);
 				}
 
@@ -56,7 +56,7 @@
 					!isFirstJump
 					&& _directionsHistory.Last().IsOpposite(Direction.D))
 				{
-					var y = actualWindow.Y - (actualWindow.Y - previousWindow.Y) / 2 - 1;
+					var y = actualWindow.Y - (actualWindow.Y - previousWindow.Y) / 2;
 					return new Window(actualWindow.X, y);
 				}
 			}
@@ -65,13 +65,13 @@
 			{
 				if (primaryDirection == Direction.R && isFirstJump)
 				{
-					var x = actualWindow.X + (_buildingWidth - actualWindow.X) / 2 + 1;
+					var x = actualWindow.X + (_buildingWidth - actualWindow.X) / 2;
 					return new Window(x, actualWindow.Y);
 				}
 
 				if (primaryDirection == Direction.L && isFirstJump)
 				{
-					var x = actualWindow.X - actualWindow.X / 2 - 1;
+					var x = actualWindow.X - actualWindow.X / 2;
 					return new Window(x, actualWindow.Y);
 				}
 
@@ -79,7 +79,7 @@
 					!isFirstJump
 					&& _directionsHistory.Last().IsOpposite(Direction.L))
 				{
-					var x = actualWindow.X - previousWindow.X / 2 - 1;
+					var x = actualWindow.X - previousWindow.X / 2;
 					return new Window(x, actualWindow.Y);
 				}
 

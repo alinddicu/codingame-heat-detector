@@ -16,7 +16,7 @@
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.UR));
 
-			Check.That(nextJump).Equals(new Window(2, 8));
+			Check.That(nextJump).Equals(new Window(2, 7));
 		}
 
 		[TestMethod]
@@ -29,7 +29,7 @@
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.DR));
 
-			Check.That(nextJump).Equals(new Window(2, 6));
+			Check.That(nextJump).Equals(new Window(2, 7));
 		}
 
 		[TestMethod]
@@ -40,7 +40,7 @@
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.DR));
 
-			Check.That(nextJump).Equals(new Window(2, 1));
+			Check.That(nextJump).Equals(new Window(2, 3));
 		}
 
 		[TestMethod]
@@ -53,7 +53,7 @@
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.UR));
 
-			Check.That(nextJump).Equals(new Window(2, 4));
+			Check.That(nextJump).Equals(new Window(2, 3));
 		}
 
 		[TestMethod]
@@ -64,7 +64,7 @@
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.R));
 
-			Check.That(nextJump).Equals(new Window(7, 5));
+			Check.That(nextJump).Equals(new Window(6, 5));
 		}
 
 		[TestMethod]
@@ -75,7 +75,7 @@
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.L));
 
-			Check.That(nextJump).Equals(new Window(0, 5));
+			Check.That(nextJump).Equals(new Window(1, 5));
 		}
 
 		[TestMethod]
@@ -88,7 +88,7 @@
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.L));
 
-			Check.That(nextJump).Equals(new Window(5, 5));
+			Check.That(nextJump).Equals(new Window(6, 5));
 		}
 
 		[TestMethod]
