@@ -33,8 +33,8 @@
 
 		public static bool IsOpposite(this Direction direction, Direction otherDirection)
 		{
-			var directionCompoenent1 = direction.Decompose().Component1;
-			var otherDirectionComponent1 = otherDirection.Decompose().Component1;
+			var directionCompoenent1 = direction.Decompose().Primary;
+			var otherDirectionComponent1 = otherDirection.Decompose().Primary;
 			var oppositeCandidate = new KeyValuePair<Direction, Direction>(directionCompoenent1, otherDirectionComponent1);
 			return Opposites.Contains(oppositeCandidate);
 		}

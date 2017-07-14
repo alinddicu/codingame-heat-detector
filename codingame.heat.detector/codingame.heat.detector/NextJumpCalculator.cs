@@ -12,8 +12,8 @@
 		private readonly IEnumerable<Direction> _directionsHistory;
 
 		public NextJumpCalculator(
-			int buildingWidth, 
-			int buildingHeight, 
+			int buildingWidth,
+			int buildingHeight,
 			Stack<Window> windowsHistory,
 			IEnumerable<Direction> directionsHistory)
 		{
@@ -25,25 +25,26 @@
 
 		public Window Execute(CompositeDirection compositeDirection)
 		{
+			var primaryDirection = compositeDirection.Primary;
 			var actualWindow = _windowsHistory.Last();
 			var isFirstJump = _windowsHistory.Length == 1;
 			var previousWindow = isFirstJump ? null : _windowsHistory[_windowsHistory.Length - 2];
-			if (compositeDirection.IsDiagonal())
+
+			if (compositeDirection.IsDiagonal() || compositeDirection.IsVertical())
 			{
-				var direction = compositeDirection.Component1;
-				if (direction == Direction.U && isFirstJump)
+				if (primaryDirection == Direction.U && isFirstJump)
 				{
 					var y = actualWindow.Y + (_buildingHeight - actualWindow.Y) / 2 + 1;
 					return new Window(actualWindow.X, y);
 				}
 
-				if (direction == Direction.D && isFirstJump)
+				if (primaryDirection == Direction.D && isFirstJump)
 				{
 					var y = actualWindow.Y / 2 - 1;
 					return new Window(actualWindow.X, y);
 				}
 
-				if (direction == Direction.U &&
+				if (primaryDirection == Direction.U &&
 					!isFirstJump
 					&& _directionsHistory.Last().IsOpposite(Direction.U))
 				{
@@ -51,25 +52,28 @@
 					return new Window(actualWindow.X, y);
 				}
 
-				if (direction == Direction.D &&
+				if (primaryDirection == Direction.D &&
 					!isFirstJump
 					&& _directionsHistory.Last().IsOpposite(Direction.D))
 				{
 					var y = actualWindow.Y - (actualWindow.Y - previousWindow.Y) / 2 - 1;
 					return new Window(actualWindow.X, y);
 				}
+			}
 
-				//if (direction == Direction.R)
-				//{
-				//	var x = actualWindow.X + (_buildingWidth - actualWindow.X) / 2 + 1;
-				//	return new Window(x, actualWindow.Y);
-				//}
+			if (compositeDirection.IsHorizontal())
+			{
+				if (primaryDirection == Direction.R && isFirstJump)
+				{
+					var x = actualWindow.X + (_buildingWidth - actualWindow.X) / 2 + 1;
+					return new Window(x, actualWindow.Y);
+				}
 
-				//if (direction == Direction.L)
-				//{
-				//	var x = actualWindow.X / 2 - 1;
-				//	return new Window(x, actualWindow.Y);
-				//}
+				if (primaryDirection == Direction.L && isFirstJump)
+				{
+					var x = actualWindow.X - actualWindow.X / 2 - 1;
+					return new Window(x, actualWindow.Y);
+				}
 			}
 
 			throw new NotImplementedException();

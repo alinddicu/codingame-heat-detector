@@ -2,30 +2,30 @@
 {
 	public class CompositeDirection
 	{
-		public CompositeDirection(Direction component1, Direction? component2 = null)
+		public CompositeDirection(Direction primary, Direction? secondary = null)
 		{
-			Component1 = component1;
-			Component2 = component2;
+			Primary = primary;
+			Secondary = secondary;
 		}
 
 		public CompositeDirection(Direction component)
-			: this(component.Decompose().Component1, component.Decompose().Component2)
+			: this(component.Decompose().Primary, component.Decompose().Secondary)
 		{
 		}
 
-		public Direction Component1 { get; }
+		public Direction Primary { get; }
 
-		public Direction? Component2 { get; }
+		public Direction? Secondary { get; }
 
 		public bool IsDiagonal()
 		{
-			return Component2 != null;
+			return Secondary != null;
 		}
 
 		public bool IsVertical()
 		{
 			return !IsDiagonal()
-				&& (Component1 == Direction.U || Component1 == Direction.D);
+				&& (Primary == Direction.U || Primary == Direction.D);
 		}
 
 		public bool IsHorizontal()

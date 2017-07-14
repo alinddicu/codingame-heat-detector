@@ -8,8 +8,8 @@
 			int buildingWidth,
 			int buildingHeight)
 		{
-			var component1 = bombDirection.Component1;
-			var component2 = bombDirection.Component2;
+			var component1 = bombDirection.Primary;
+			var component2 = bombDirection.Secondary;
 			var x = currentWindow.X;
 			var y = currentWindow.Y;
 			var vX = x;
