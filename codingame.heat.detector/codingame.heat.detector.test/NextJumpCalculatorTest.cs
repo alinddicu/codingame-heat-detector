@@ -1,18 +1,32 @@
 ﻿namespace codingame.heat.detector.test
 {
 	using System.Collections.Generic;
-	using System.Linq;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using NFluent;
 
 	[TestClass]
 	public class NextJumpCalculatorTest
 	{
+		private static readonly List<Window> WindowsHistory = new List<Window>();
+		private static readonly List<Direction> DirectionsHistory = new List<Direction>();
+
+		[TestInitialize]
+		public void Initialize()
+		{
+			WindowsHistory.Clear();
+			DirectionsHistory.Clear();
+		}
+
+		private static NextJumpCalculator InitCalculator()
+		{
+			return new NextJumpCalculator(10, 10, WindowsHistory, DirectionsHistory);
+		}
+
 		[TestMethod]
 		public void GivenStartAtX2Y5WhenDirectionIsUrThenReturnX2Y8()
 		{
-			var windowsHistory = new Stack<Window>(new[] { new Window(2, 5) });
-			var calculator = new NextJumpCalculator(10, 10, windowsHistory, Enumerable.Empty<Direction>());
+			WindowsHistory.Add(new Window(2, 5));
+			var calculator = InitCalculator();
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.UR));
 
@@ -22,10 +36,10 @@
 		[TestMethod]
 		public void UpThenDown()
 		{
-			var windowsHistory = new Stack<Window>();
-			windowsHistory.Push(new Window(2, 5));
-			windowsHistory.Push(new Window(2, 8));
-			var calculator = new NextJumpCalculator(10, 10, windowsHistory, new[] { Direction.UR });
+			WindowsHistory.Add(new Window(2, 5));
+			WindowsHistory.Add(new Window(2, 8));
+			DirectionsHistory.Add(Direction.UR);
+			var calculator = InitCalculator();
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.DR));
 
@@ -35,8 +49,8 @@
 		[TestMethod]
 		public void GivenStartAtX2Y5WhenDirectionIsDrThenReturnX2Y8()
 		{
-			var windowsHistory = new Stack<Window>(new[] { new Window(2, 5) });
-			var calculator = new NextJumpCalculator(10, 10, windowsHistory, Enumerable.Empty<Direction>());
+			WindowsHistory.Add(new Window(2, 5));
+			var calculator = InitCalculator();
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.DR));
 
@@ -46,10 +60,10 @@
 		[TestMethod]
 		public void DownThenUp()
 		{
-			var windowsHistory = new Stack<Window>();
-			windowsHistory.Push(new Window(2, 5));
-			windowsHistory.Push(new Window(2, 1));
-			var calculator = new NextJumpCalculator(10, 10, windowsHistory, new[] { Direction.DR });
+			WindowsHistory.Add(new Window(2, 5));
+			WindowsHistory.Add(new Window(2, 1));
+			DirectionsHistory.Add(Direction.DR);
+			var calculator = InitCalculator();
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.UR));
 
@@ -59,8 +73,8 @@
 		[TestMethod]
 		public void GivenStartAtX2Y5WhenDirectionIsRThenReturnX7Y5()
 		{
-			var windowsHistory = new Stack<Window>(new[] { new Window(2, 5) });
-			var calculator = new NextJumpCalculator(10, 10, windowsHistory, Enumerable.Empty<Direction>());
+			WindowsHistory.Add(new Window(2, 5));
+			var calculator = InitCalculator();
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.R));
 
@@ -70,8 +84,8 @@
 		[TestMethod]
 		public void GivenStartAtX2Y5WhenDirectionIsLThenReturnX0Y5()
 		{
-			var windowsHistory = new Stack<Window>(new[] { new Window(2, 5) });
-			var calculator = new NextJumpCalculator(10, 10, windowsHistory, Enumerable.Empty<Direction>());
+			WindowsHistory.Add(new Window(2, 5));
+			var calculator = InitCalculator();
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.L));
 
@@ -81,10 +95,9 @@
 		[TestMethod]
 		public void RightThenLeft()
 		{
-			var windowsHistory = new Stack<Window>();
-			windowsHistory.Push(new Window(2, 5));
-			windowsHistory.Push(new Window(7, 5));
-			var calculator = new NextJumpCalculator(10, 10, windowsHistory, new[] { Direction.R });
+			WindowsHistory.Add(new Window(2, 5));
+			WindowsHistory.Add(new Window(7, 5));
+			var calculator = new NextJumpCalculator(10, 10, WindowsHistory, new[] { Direction.R });
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.L));
 
@@ -94,10 +107,10 @@
 		[TestMethod]
 		public void LeftThenRight()
 		{
-			var windowsHistory = new Stack<Window>();
-			windowsHistory.Push(new Window(2, 5));
-			windowsHistory.Push(new Window(0, 5));
-			var calculator = new NextJumpCalculator(10, 10, windowsHistory, new[] { Direction.L });
+			WindowsHistory.Add(new Window(2, 5));
+			WindowsHistory.Add(new Window(0, 5));
+			DirectionsHistory.Add(Direction.L);
+			var calculator = InitCalculator();
 
 			var nextJump = calculator.Execute(new CompositeDirection(Direction.R));
 

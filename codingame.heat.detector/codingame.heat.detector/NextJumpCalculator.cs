@@ -8,27 +8,30 @@
 	{
 		private readonly int _buildingWidth;
 		private readonly int _buildingHeight;
-		private readonly Window[] _windowsHistory;
+		private readonly IEnumerable<Window> _windowsHistory;
 		private readonly IEnumerable<Direction> _directionsHistory;
 
 		public NextJumpCalculator(
 			int buildingWidth,
 			int buildingHeight,
-			Stack<Window> windowsHistory,
+			IEnumerable<Window> windowsHistory,
 			IEnumerable<Direction> directionsHistory)
 		{
 			_buildingWidth = buildingWidth;
 			_buildingHeight = buildingHeight;
-			_windowsHistory = windowsHistory.Reverse().ToArray();
+			_windowsHistory = windowsHistory;
 			_directionsHistory = directionsHistory;
 		}
 
 		public Window Execute(CompositeDirection compositeDirection)
 		{
+			var windowsHistory = _windowsHistory.ToArray();
+			var directionsHistory = _directionsHistory.ToArray();
+
 			var primaryDirection = compositeDirection.Primary;
-			var actualWindow = _windowsHistory.Last();
-			var isFirstJump = _windowsHistory.Length == 1;
-			var previousWindow = isFirstJump ? null : _windowsHistory[_windowsHistory.Length - 2];
+			var actualWindow = windowsHistory.Last();
+			var isFirstJump = windowsHistory.Length == 1;
+			var previousWindow = isFirstJump ? null : windowsHistory[windowsHistory.Length - 2];
 
 			if (compositeDirection.IsDiagonal() || compositeDirection.IsVertical())
 			{
@@ -46,7 +49,7 @@
 
 				if (primaryDirection == Direction.U &&
 					!isFirstJump
-					&& _directionsHistory.Last().IsOpposite(Direction.U))
+					&& directionsHistory.Last().IsOpposite(Direction.U))
 				{
 					var y = actualWindow.Y + (previousWindow.Y - actualWindow.Y) / 2;
 					return new Window(actualWindow.X, y);
@@ -54,7 +57,7 @@
 
 				if (primaryDirection == Direction.D &&
 					!isFirstJump
-					&& _directionsHistory.Last().IsOpposite(Direction.D))
+					&& directionsHistory.Last().IsOpposite(Direction.D))
 				{
 					var y = actualWindow.Y - (actualWindow.Y - previousWindow.Y) / 2;
 					return new Window(actualWindow.X, y);
@@ -77,7 +80,7 @@
 
 				if (primaryDirection == Direction.L &&
 					!isFirstJump
-					&& _directionsHistory.Last().IsOpposite(Direction.L))
+					&& directionsHistory.Last().IsOpposite(Direction.L))
 				{
 					var x = actualWindow.X - previousWindow.X / 2;
 					return new Window(x, actualWindow.Y);
@@ -85,7 +88,7 @@
 
 				if (primaryDirection == Direction.R &&
 					!isFirstJump
-					&& _directionsHistory.Last().IsOpposite(Direction.R))
+					&& directionsHistory.Last().IsOpposite(Direction.R))
 				{
 					var x = actualWindow.X + (previousWindow.X - actualWindow.X) / 2;
 					return new Window(x, actualWindow.Y);
